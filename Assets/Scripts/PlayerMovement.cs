@@ -5,16 +5,27 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public PlayerController controller;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
+    public float runSpeed = 40f;
+    //move left and right
+    private float horizontalMove = 0f;
+
+    private bool jump = false;
 
     // Update is called once per frame
     void Update()
     {
-        Input.GetAxisRaw("Horizontal");
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
+        if (Input.GetButtonDown("Jump"))
+        {
+            jump = true;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        controller.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
+        jump = false;
     }
 }
